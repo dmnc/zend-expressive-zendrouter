@@ -42,31 +42,31 @@ class ZendRouter implements RouterInterface
      *
      * @var array
      */
-    private $allowedMethodsByPath = [];
+    protected $allowedMethodsByPath = [];
 
     /**
      * Map a named route to a ZF2 route name to use for URI generation.
      *
      * @var array
      */
-    private $routeNameMap = [];
+    protected $routeNameMap = [];
 
     /**
      * @param Route[]
      */
-    private $routes = [];
+    protected $routes = [];
 
     /**
      * Routes aggregated to inject.
      *
      * @var Route[]
      */
-    private $routesToInject = [];
+    protected $routesToInject = [];
 
     /**
      * @var TreeRouteStack
      */
-    private $zendRouter;
+    protected $zendRouter;
 
     /**
      * Constructor.
@@ -137,7 +137,7 @@ class ZendRouter implements RouterInterface
     /**
      * @return TreeRouteStack
      */
-    private function createRouter()
+    protected function createRouter()
     {
         return new TreeRouteStack();
     }
@@ -149,7 +149,7 @@ class ZendRouter implements RouterInterface
      * @param PsrRequest $request Current HTTP request
      * @return RouteResult
      */
-    private function marshalSuccessResultFromRouteMatch(RouteMatch $match, PsrRequest $request)
+    protected function marshalSuccessResultFromRouteMatch(RouteMatch $match, PsrRequest $request)
     {
         $params = $match->getParams();
 
@@ -190,7 +190,7 @@ class ZendRouter implements RouterInterface
      * @param Route $route
      * @return array
      */
-    private function createHttpMethodRoute($route)
+    protected function createHttpMethodRoute($route)
     {
         $methods = array_unique(array_merge($route->getAllowedMethods(), self::HTTP_METHODS_IMPLICIT));
         return [
@@ -215,7 +215,7 @@ class ZendRouter implements RouterInterface
      * @param string $path
      * @return array
      */
-    private function createMethodNotAllowedRoute($path)
+    protected function createMethodNotAllowedRoute($path)
     {
         return [
             'type'     => 'regex',
@@ -240,7 +240,7 @@ class ZendRouter implements RouterInterface
      * @param string $name
      * @return string
      */
-    private function getMatchedRouteName($name)
+    protected function getMatchedRouteName($name)
     {
         // Check for <name>/GET:POST style route names; if so, strip off the
         // child route matching the method.
@@ -255,7 +255,7 @@ class ZendRouter implements RouterInterface
     /**
      * Inject any unprocessed routes into the underlying router implementation.
      */
-    private function injectRoutes()
+    protected function injectRoutes()
     {
         foreach ($this->routesToInject as $index => $route) {
             $this->injectRoute($route);
@@ -269,7 +269,7 @@ class ZendRouter implements RouterInterface
      *
      * @param Route $route
      */
-    private function injectRoute(Route $route)
+    protected function injectRoute(Route $route)
     {
         $name    = $route->getName();
         $path    = $route->getPath();
